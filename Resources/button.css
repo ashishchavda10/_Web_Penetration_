@@ -1,0 +1,21 @@
+.button button {
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 30%;
+  display: block;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align: center;
+  margin:0 auto;
+  border: 3px solid #009688;
+	background: transparent;
+	color: #fff;
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+}
+.button button:hover {
+  background-color: #009688;
+}

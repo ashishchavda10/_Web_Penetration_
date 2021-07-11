@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FILE UPLOAD</title>
+</head>
+<body><h1 style="text-align: center;">File Upload</h1>
+    <br><p style="text-align: center;margin-left: 50px;margin-right: 50px;color: #1F618D ">
+Unrestricted File Upload:<br><br>
+Uploaded files represent a significant risk to applications. The first step in many attacks is to get some code to the system to be attacked. Then the attack only needs to find a way to get the code executed. Using a file upload helps the attacker accomplish the first step.<br><br>
+
+The consequences of unrestricted file upload can vary, including complete system takeover, an overloaded file system or database, forwarding attacks to back-end systems, client-side attacks, or simple defacement. It depends on what the application does with the uploaded file and especially where it is stored.
+<br><br>
+There are really two classes of problems here. The first is with the file metadata, like the path and file name. These are generally provided by the transport, such as HTTP multi-part encoding. This data may trick the application into overwriting a critical file or storing the file in a bad location. You must validate the metadata extremely carefully before using it.
+<br><br>
+The other class of problem is with the file size or content. The range of problems here depends entirely on what the file is used for. See the examples below for some ideas about how files might be misused. To protect against this type of attack, you should analyse everything your application does with files and think carefully about what processing and interpreters are involved.
+<br><br>
+<h2 style="text-align: center;">Level 1:</h2>
+
+<p style="text-align: center;margin-left: 50px;margin-right: 50px;color: #1F618D ">
+In this very first level of Unrestricted file upload, we are presented with a upload page where we have to upload a PHP file but the application filters out php extension. Let us see the source code of the application.
+<br><br><img src="1.jpeg"><br><br>
+As we can see that on line 21, we have a filter in place which blocks any file with a php extension. We can try to defeat this and upload a php web shell with a php5 extension.
+<br>Let us try uploading a simple web shell with php3 extension.
+<br>The contents of the webshell are shown below:
+<br><br><img src="2.jpeg"><br><br>
+This will execute a simple "ls" command. This shell can be edited to execute arbitrary command. Lets try to upload this and check the output.<br><br>
+<img src="3.jpeg"><br><br>
+
+The file is valid and successfully uploaded.
+<br><br><img src="4.jpeg"><br><br>
+
+Lets check the output by clicking the click here or uploaded button.
+<br><br><img src="5.jpeg"><br><br>
+We can see that we have executed arbitrary commands and can see the directory contents.
+<br><br></p>
+<h2 style="text-align: center;">Level 2:</h2>
+
+<p style="text-align: center;margin-left: 50px;margin-right: 50px;color: #1F618D ">
+In this level, we have to upload a php file like level 1. But the application has blacklisted a few more extension. Lets check the source code.
+<br><br><img src="6.jpeg"><br><br>
+As we can see, the blacklist is more extensive here. But a simple error made this blacklist not at all effective. This list matches and replaces the extensions in lowercase. We can try to upload a file with a PHP extension in all capital letters such as shell.PHP. Let us try the same and check.<br><br>
+<img src="7.jpeg"><br><br>
+We have successfully bypassed the blacklist and got command execution.<br><br>
+<img src="8.jpeg"><br><br>
+<br><img src="9.jpeg"><br><br></p>
+<h2 style="text-align: center;">Level 3:</h2>
+
+<p style="text-align: center;margin-left: 50px;margin-right: 50px;color: #1F618D ">
+In this level, we are presented with the same upload page but this time we have to upload a GIF file and the extension is not checked this time, rather the file type is being checked. Lets check the source code:
+<br><br><img src="10.jpeg"><br>
+<br>As we can see on line 26, the file type is being verified to see if the file is a GIF. To bypass this, we will require a proxy to intercept the request like burp suite. Let us intercept the request and try to upload a webshell.<br>
+First we will rename our old webshell as shell.php.gif so that the extension does not gets filtered. Now intercept the request and click upload.<br>
+<br><img src="11.jpeg"><br><br>
+We have intercepted the request. All we have to now is to change the filename to shell.php and click forward. We have bypassed the blacklist and successfully uplaoded the file.<br><br><img src="12.jpeg"><br><br>
+Click on uploaded file to verify the shell.
+</p></p>
+</body>
+</html>

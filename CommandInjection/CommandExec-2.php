@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>CommandExec-2</title>
+    <link rel="stylesheet" href="../Resources/style4.css">
+  </head>
+  <body>
+      <div style="background-color:#fff;padding:15px;">
+      <button class="button" name="homeButton" onclick="location.href='../index.html';">Home Page</button>
+      <button class="button" name="mainButton" onclick="location.href='commandexec.html';">Command Injection Home Page</button>  
+      </div>
+    <div align="center" style="background-color:#fff;padding:20px;margin-top:3%">
+      <h1 align="center">I think there is a vuln here!</h1><br>
+    <form align="center" action="CommandExec-2.php" method="$_GET">
+      <label align="center">Enter a domain name for whois search: </label><br><br>
+      <input align="center" type="text" name="typeBox" value=""><br><br>
+      <input align="center" type="submit" value="Submit">
+    </form>
+  </div>
+  <div class="footer" style="background-color:#00968; padding:20px;">
+    <?php
+    if(isset($_GET["typeBox"])){
+      $target =$_GET["typeBox"];
+      
+      if($_GET["typeBox"] == "notTheSamePassword")
+        echo "Welldone! You did great job.";
+    
+       else{ echo system("whois -H ".$target."| head");}
+    }
+    ?>
+  </div>
+  </body>
+</html>
